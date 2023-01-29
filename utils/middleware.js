@@ -1,6 +1,6 @@
 export const isUser = (req, res, next) => {
     if (req.body.role === "admin") {
-        console.log("user ok")
+        console.log("User ok")
     } else {
         res.redirect(401, "/")
     }
