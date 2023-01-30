@@ -1,52 +1,34 @@
 import express from "express"
-import { isUser } from "./utils/middleware.js"
+import { createServer } from "http"
+import { Server } from "socket.io"
+
+// Tengo que hacer esto porque estoy trabajando con el type: module
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename);
 
 const app = express()
+const httpServer = createServer(app)
+const io = new Server(httpServer)
 
-// Middleware incorporado o de integracion
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
+app.use(express.static("public"))
 
-// Middleware a nivel de la aplicacion.
-
-app.use(function(req, res, next){
-    console.log(Date())
-    next()
-})
-
-const method=(req, res, next) => {
-    console.log("🚀 ~ file: server.js:18 ~ method ~ req", req.method)
-    next()
-}
-
-app.use(method)
-
-//CRUD
-// Create
-// Middleware a nivel de ruta
-
-app.post("/", isUser, (req, res) => {
-    res.send("post")
-})
-// Read
 app.get("/", (req, res) => {
-    res.send("getAll")
-})
-// Read by Id
-app.get("/", (req, res) => {
-    res.send("getById")
-})
-app.use(isUser)
-
-// Updte
-app.put("/", (req, res) => {
-    res.send("update")
-})
-// Delete
-app.delete("/", (req, res) => {
-    res.send("delete")
+    res.sendFile(`${__dirname}/index.html`)
 })
 
-app.listen(8080, () => {
-    console.log("Servidor ok")
+io.on("connection", (socket) => {
+    console.log("Hola", socket.id)
+
+    socket.emit("saludo", "Hola como estas? Soy el servidor")
+    socket.on("respuesta", data =>{
+        console.log("🚀 ~ file: server.js:26 ~ io.on ~ data", data)
+    })
+
 })
+
+
+
+httpServer.listen(3000, () => console.log("Servidor ok"))
