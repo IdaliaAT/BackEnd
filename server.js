@@ -2,7 +2,7 @@ import express from "express"
 import morgan from "morgan"
 import routes from "./routes/index.js"
 import db from "./db/db.js"
-import { Category } from "./models/index.js"
+import { Category, Product, User } from "./models/index.js"
 
 const app = express()
 

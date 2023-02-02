@@ -4,7 +4,9 @@ import db from "../db/db.js"
 class Category extends Model {}
 
 // Como primer parametro le tengo que pasar un objeto con los parametros de la tabla.
-// Y como segundo parametro la conexion.
+// Como segundo parametro la conexion.
+// Todo los framework ya vienen con esta estructura.
+
 Category.init({
     name: {
         type: Dt.STRING,
