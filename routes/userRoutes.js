@@ -7,10 +7,10 @@ userRoutes.get("/", (req, res) => {
     res.send("getAllAuser")
 })
 userRoutes.get("/:id", (req, res) => {
-    res.send("getUserById: req.params.id")
+    res.send({ getUserById: req.params.id })
 })
-userRoutes.use(isUser)
 
+userRoutes.use(isUser)
 userRoutes.post("/", (req, res) => {
     res.send({ createUser: req.body })
 })
