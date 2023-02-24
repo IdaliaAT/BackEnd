@@ -8,14 +8,19 @@ class Category extends Model {}
 // Todo los framework ya vienen con esta estructura.
 
 Category.init({
-    name: {
-        type: Dt.STRING,
-        allowNull: false
-    },
-}, {
-    sequelize: db,
-    modelName: "Category"
-})
-
+        name: {
+            type: Dt.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                is: ["[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ\s]+$", 'i'],
+                len: [2, 50],
+            }
+        },
+    }, {
+        sequelize: db,
+        modelName: "Category"
+    })
+    // console.log(Category === db.models.Category);
 
 export default Category
